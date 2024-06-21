@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "499088980967",
+    "firebase_url": "https://userintercations-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "userintercations",
+    "storage_bucket": "userintercations.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499088980967:android:b4ad5ade593240610f1b42",
+        "android_client_info": {
+          "package_name": "com.example.event_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeBK4Q0gtLsR0HITOwjd9-auRiDU0AHbg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
