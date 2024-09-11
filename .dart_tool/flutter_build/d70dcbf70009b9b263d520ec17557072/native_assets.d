@@ -1,1 +1,0 @@
- C:\\Users\\victus\\event_tracker\\.dart_tool\\flutter_build\\d70dcbf70009b9b263d520ec17557072\\native_assets.yaml: 

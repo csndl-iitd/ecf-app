@@ -50,12 +50,12 @@ class EyeGazeTracker {
         x = info.x;
         y = info.y;
         gazeColor = Colors.green;
-        print('gaze : ($x,$y)');
+        //print('gaze : ($x,$y)');
       } else {
         x = 0.0;
         y = 0.0;
         gazeColor = Colors.red;
-        print('gaze not found : ($x,$y)');
+        //print('gaze not found : ($x,$y)');
       }
       onUpdate();
 

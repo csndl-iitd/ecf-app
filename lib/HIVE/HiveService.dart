@@ -16,4 +16,24 @@ class HiveService{
     }
     return events;
   }
+
+  Future<void> savePermissionStatus(bool status) async {
+    var box = await Hive.openBox('settings');
+    await box.put('accessibilityPermission', status);
+  }
+
+  Future<bool> getPermissionStatus() async {
+    var box = await Hive.openBox('settings');
+    return box.get('accessibilityPermission', defaultValue: false);
+  }
+
+  Future<void> saveSsPermissionStatus(bool status) async {
+    var box = await Hive.openBox('settings');
+    await box.put('MediaProjection', status);
+  }
+
+  Future<bool> getSsPermissionStatus() async {
+    var box = await Hive.openBox('settings');
+    return box.get('MediaProjection', defaultValue: false);
+  }
 }

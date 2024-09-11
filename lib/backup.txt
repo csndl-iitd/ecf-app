@@ -1,0 +1,75 @@
+import 'dart:async';
+import 'dart:developer'; // For log function
+import 'package:flutter/material.dart';
+import 'package:flutter_accessibility_service/flutter_accessibility_service.dart';
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String? prevEvent; // Allow null initialization
+  String? newEvent;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Accessibility Event Listener'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: _startAccessibilityListener,
+            child: Text('Start Accessibility Listener'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Add functionality here if needed
+            },
+            child: Text('Check'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _startAccessibilityListener() async {
+    final bool status = await FlutterAccessibilityService.isAccessibilityPermissionEnabled();
+    if (!status) {
+      final bool res = await FlutterAccessibilityService.requestAccessibilityPermission();
+      if (!res) {
+        log('Accessibility permission denied.');
+        print('Accessibility permission denied.');
+        return;
+      }
+    }
+    
+    FlutterAccessibilityService.accessStream.listen((event) {
+      // Extracting relevant fields from the event object
+      String eventType = event.eventType.toString();
+      String actionType = event.actionType.toString();
+      String eventTime = event.eventTime?.toString() ?? 'Unknown';
+      String packageName = event.packageName ?? 'Unknown';
+      newEvent = packageName;
+
+      // Log and print the event details only if the event is different from the previous event
+      if (prevEvent != newEvent) {
+        log('Event Type: $eventType, Event Time: $eventTime, Package Name: $packageName, Action Type: $actionType');
+        print("\n ");
+        print('Event Type: $eventType, Action Type: $actionType');
+        print(' Event Time: $eventTime, Package Name: $packageName\n\n');
+
+        // Update the previous event
+        setState(() {
+          prevEvent = newEvent;
+        });
+      }
+    });
+
+    log('Accessibility event listener started.');
+    print('Accessibility event listener started.');
+  }
+}

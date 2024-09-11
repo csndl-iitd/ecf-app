@@ -1,6 +1,7 @@
-import 'package:event_tracker/experiment.txt';
+import 'package:event_tracker/experiment.dart';
+
 import 'package:event_tracker/firebase_options.dart';
-import 'package:event_tracker/home.dart';
+
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 

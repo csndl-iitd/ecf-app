@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:event_tracker/editImage/blur.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_accessibility_service/accessibility_event.dart';
@@ -6,7 +8,8 @@ import 'package:media_projection_screenshot/captured_image.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FirebaseImageStorage {
-   
+  Image_Process p= new Image_Process();
+  Uint8List? _processedImage;
   final FirebaseStorage storage = FirebaseStorage.instance;
   DatabaseReference reference = FirebaseDatabase.instance.ref('TrackUserInteractions');
   DatabaseReference reference2 = FirebaseDatabase.instance.ref('ClickedEvent');
@@ -34,11 +37,19 @@ class FirebaseImageStorage {
   }
 
   Future<void> pickAndStoreImage(CapturedImage? image1, String eventtype, String eventtime , String packagename,ScreenBounds screenbounds) async {
+    final imageBytes = image1!.bytes;
+    print(imageBytes);
+    print("ss recieved  ${double.parse(screenbounds.left.toString())}");
+    //print("${double.parse(screenbounds.left.toString()).runtimeType}");
+    Uint8List edited = await p.process_Image(imageBytes,double.parse(screenbounds.left.toString()), double.parse(screenbounds.top.toString()),double.parse(screenbounds.height.toString()), double.parse(screenbounds.width.toString()));
+    
+    print("processed img recieved");
+
     final output =await getTemporaryDirectory();
-    var filePath ="${output.path}/${DateTime.now().millisecondsSinceEpoch}.png";
-      final imageBytes = image1!.bytes;
-      final file = File(filePath);
-      await file.writeAsBytes(imageBytes);
+    var filePath ="${output.path}/${DateTime.now().millisecondsSinceEpoch}.png"; 
+    final file = File(filePath);
+    await file.writeAsBytes(edited);
+
       String imageUrl = await uploadImage(file);
       Map<String, dynamic> otherDetails = {
         'eventtype': eventtype,
